@@ -9,6 +9,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
+  output: "standalone", // Ensure output is suitable for static export
+  distDir: "custom-out", // Example of a custom output directory
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");

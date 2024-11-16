@@ -81,7 +81,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./custom-out
+      - name: Debug build output
+        run: ls -la
 
   # Deployment job
   deploy:
