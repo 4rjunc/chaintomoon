@@ -1,6 +1,6 @@
-# ChainPortal 🌟
+# Chain2Moon 🌟
 
-> Your Gateway to Web3 Gaming 🎮
+> Web3 Gaming 🎮
 
 <!-- [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) -->
 <!-- [![Discord](https://img.shields.io/discord/YOUR_DISCORD_ID)](https://discord.gg/YOUR_INVITE) -->
