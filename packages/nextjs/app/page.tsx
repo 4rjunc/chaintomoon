@@ -1,34 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IDKitWidget, ISuccessResult, VerificationLevel } from "@worldcoin/idkit";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, CubeIcon, CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
+  const [proof, setProof] = useState("");
 
   const onSuccess = () => {
     // This is where you should perform any actions after the modal is closed
     // Such as redirecting the user to a new page
     console.log("World Coin Success");
-  };
-
-  const handleVerify = async (proof: ISuccessResult) => {
-    const res = await fetch("/api/verify", {
-      // route to your backend will depend on implementation
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(proof),
-    });
-    if (!res.ok) {
-      throw new Error("Verification failed."); // IDKit will display the error message to the user in the modal
-    }
   };
 
   return (
@@ -42,22 +31,41 @@ const Home: NextPage = () => {
             <span className="text-4xl font-bold">ChainPortal</span>
           </h1>
 
-          <IDKitWidget
-            app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
-            action="profezzor" // obtained from the Developer Portal
-            onSuccess={onSuccess} // callback when the modal is closed
-            handleVerify={handleVerify} // callback when the proof is received
-            verification_level={VerificationLevel.Orb}
-          >
-            {({ open }) => (
-              // This is the button that will open the IDKit modal
-              <button onClick={open}>Verify with World ID</button>
+          <div className="flex justify-center items-center text-center space-x-4">
+            {proof ? (
+              <div>
+                <div className="flex justify-center items-center space-x-2 flex-col">
+                  <p className="my-2 font-medium">Connected Address:</p>
+                  <Address address={connectedAddress} />
+                  <Link
+                    href="/developer"
+                    passHref
+                    className={`
+                   mt-3 bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
+                  >
+                    <WrenchScrewdriverIcon className="h-5 w-5" />
+                    <span>Developer Console</span>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <IDKitWidget
+                  app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
+                  action="profezzor" // obtained from the Developer Portal
+                  onSuccess={setProof} // callback when the modal is closed
+                  signal={connectedAddress} // proof will only verify if the signal is unchanged, this prevents tampering
+                  verification_level={VerificationLevel.Device}
+                >
+                  {({ open }) => (
+                    // This is the button that will open the IDKit modal
+                    <button onClick={open} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                      Verify with World ID to unlock access
+                    </button>
+                  )}
+                </IDKitWidget>
+              </div>
             )}
-          </IDKitWidget>
-
-          <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
           </div>
 
           <p className="text-center text-lg">
