@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { IDKitWidget, ISuccessResult, VerificationLevel } from "@worldcoin/idkit";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, CubeIcon, CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -9,6 +10,26 @@ import { Address } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
+
+  const onSuccess = () => {
+    // This is where you should perform any actions after the modal is closed
+    // Such as redirecting the user to a new page
+    console.log("World Coin Success");
+  };
+
+  const handleVerify = async (proof: ISuccessResult) => {
+    const res = await fetch("/api/verify", {
+      // route to your backend will depend on implementation
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(proof),
+    });
+    if (!res.ok) {
+      throw new Error("Verification failed."); // IDKit will display the error message to the user in the modal
+    }
+  };
 
   return (
     <>
@@ -20,6 +41,19 @@ const Home: NextPage = () => {
             </div>
             <span className="text-4xl font-bold">ChainPortal</span>
           </h1>
+
+          <IDKitWidget
+            app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
+            action="profezzor" // obtained from the Developer Portal
+            onSuccess={onSuccess} // callback when the modal is closed
+            handleVerify={handleVerify} // callback when the proof is received
+            verification_level={VerificationLevel.Orb}
+          >
+            {({ open }) => (
+              // This is the button that will open the IDKit modal
+              <button onClick={open}>Verify with World ID</button>
+            )}
+          </IDKitWidget>
 
           <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
             <p className="my-2 font-medium">Connected Address:</p>

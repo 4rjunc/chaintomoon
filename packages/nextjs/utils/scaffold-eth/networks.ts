@@ -119,7 +119,7 @@ export function getBlockExplorerAddressLink(network: chains.Chain, address: stri
   }
 
   if (!blockExplorerBaseURL) {
-    return `https://etherscan.io/address/${address}`;
+    return `https://eth.blockscout.com/address/${address}`;
   }
   // TODO add blockscout here
 

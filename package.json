@@ -35,6 +35,7 @@
     "verify": "yarn workspace @se-2/hardhat verify"
   },
   "devDependencies": {
+    "@types/prop-types": "^15",
     "husky": "~8.0.3",
     "lint-staged": "~13.2.2"
   },
@@ -45,6 +46,8 @@
   "dependencies": {
     "@nillion/client-react-hooks": "^0.1.0",
     "@nillion/client-vms": "^0.1.0",
-    "@nillion/client-wasm": "^0.1.0"
+    "@nillion/client-wasm": "^0.1.0",
+    "@worldcoin/idkit": "^1.3.0",
+    "prop-types": "^15.8.1"
   }
 }
