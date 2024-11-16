@@ -4,7 +4,7 @@ import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
-export const metadata = getMetadata({ title: "Chainportal", description: "Where Games Meet Chain" });
+export const metadata = getMetadata({ title: "Chain2Moon", description: "gamble" });
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (

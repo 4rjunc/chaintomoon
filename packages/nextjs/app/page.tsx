@@ -1,147 +1,252 @@
+// @ts-nocheck
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { IDKitWidget, ISuccessResult, VerificationLevel } from "@worldcoin/idkit";
-import type { NextPage } from "next";
-import { useAccount } from "wagmi";
-import { CubeIcon, CurrencyDollarIcon } from "@heroicons/react/24/outline";
-import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+/* eslint-disable @typescript-eslint/no-use-before-define */
 
-const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
-  const [proof, setProof] = useState("");
+/* eslint-disable no-console */
+import { useEffect, useState } from "react";
+import RPC from "./ethersRPC";
+import { CHAIN_NAMESPACES, IAdapter, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
+import { getDefaultExternalAdapters } from "@web3auth/default-evm-adapter";
+import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
+import { Web3Auth, Web3AuthOptions } from "@web3auth/modal";
 
-  const onSuccess = () => {
-    // This is where you should perform any actions after the modal is closed
-    // Such as redirecting the user to a new page
-    console.log("World Coin Success");
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// @ts-nocheck
+
+// import RPC from "./viemRPC";
+// import RPC from "./web3RPC";
+
+const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
+
+const chainConfig = {
+  chainNamespace: CHAIN_NAMESPACES.EIP155,
+  chainId: "0xaa36a7",
+  rpcTarget: "https://rpc.ankr.com/eth_sepolia",
+  // Avoid using public rpcTarget in production.
+  // Use services like Infura, Quicknode etc
+  displayName: "Ethereum Sepolia Testnet",
+  blockExplorerUrl: "https://sepolia.etherscan.io",
+  ticker: "ETH",
+  tickerName: "Ethereum",
+  logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+};
+
+const privateKeyProvider = new EthereumPrivateKeyProvider({
+  config: { chainConfig },
+});
+
+const web3AuthOptions: Web3AuthOptions = {
+  clientId,
+  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
+  privateKeyProvider,
+};
+const web3auth = new Web3Auth(web3AuthOptions);
+
+const adapters = await getDefaultExternalAdapters({ options: web3AuthOptions });
+adapters.forEach((adapter: IAdapter<unknown>) => {
+  web3auth.configureAdapter(adapter);
+});
+
+function App() {
+  const [provider, setProvider] = useState<IProvider | null>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await web3auth.initModal();
+        setProvider(web3auth.provider);
+
+        if (web3auth.connected) {
+          setLoggedIn(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    init();
+  }, []);
+
+  const login = async () => {
+    const web3authProvider = await web3auth.connect();
+    setProvider(web3authProvider);
+    if (web3auth.connected) {
+      setLoggedIn(true);
+    }
   };
 
-  return (
+  const getUserInfo = async () => {
+    const user = await web3auth.getUserInfo();
+    uiConsole(user);
+  };
+
+  const logout = async () => {
+    await web3auth.logout();
+    setProvider(null);
+    setLoggedIn(false);
+    uiConsole("logged out");
+  };
+
+  // Check the RPC file for the implementation
+  const getAccounts = async () => {
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const address = await RPC.getAccounts(provider);
+    uiConsole(address);
+  };
+
+  const getBalance = async () => {
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const balance = await RPC.getBalance(provider);
+    uiConsole(balance);
+  };
+
+  const signMessage = async () => {
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const signedMessage = await RPC.signMessage(provider);
+    uiConsole(signedMessage);
+  };
+
+  const sendTransaction = async () => {
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    uiConsole("Sending Transaction...");
+    const transactionReceipt = await RPC.sendTransaction(provider);
+    uiConsole(transactionReceipt);
+  };
+
+  function uiConsole(...args: any[]): void {
+    const el = document.querySelector("#console>p");
+    if (el) {
+      el.innerHTML = JSON.stringify(args || {}, null, 2);
+      console.log(...args);
+    }
+  }
+
+  const loggedInView = (
     <>
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="flex justify-center items-center text-center space-x-4">
-            <div className="flex-shrink-0 w-10 h-10 relative">
-              <Image alt="SE2 logo" className="cursor-pointer" layout="fill" src="/mushroom.png" />
-            </div>
-            <span className="text-4xl font-bold">ChainPortal</span>
-          </h1>
-
-          <div className="flex justify-center items-center text-center space-x-4">
-            {proof ? (
-              <div>
-                <div className="flex justify-center items-center space-x-2 flex-col">
-                  <p className="my-2 font-medium">Connected Address:</p>
-                  <Address address={connectedAddress} />
-                  <Link
-                    href="/developer"
-                    passHref
-                    className={`
-                   mt-3 bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
-                  >
-                    <WrenchScrewdriverIcon className="h-5 w-5" />
-                    <span>Developer Console</span>
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <IDKitWidget
-                  app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
-                  action="profezzor" // obtained from the Developer Portal
-                  onSuccess={setProof} // callback when the modal is closed
-                  signal={connectedAddress} // proof will only verify if the signal is unchanged, this prevents tampering
-                  verification_level={VerificationLevel.Device}
-                >
-                  {({ open }: { open: () => void }) => (
-                    // This is the button that will open the IDKit modal
-                    <button onClick={open} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                      Verify with World ID to unlock access
-                    </button>
-                  )}
-                </IDKitWidget>
-              </div>
-            )}
-          </div>
-
-          <p className="text-center text-lg">
-            <h2>Connect. Play. Own</h2>
-          </p>
-
-          <p className="text-center text-lg">
-            Build better gaming experiences with{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              plug-and-play authentication
-            </code>{" "}
-            powered by{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              blockchain technology
-            </code>
-          </p>
+      <div className="flex-container">
+        <div>
+          <button onClick={getUserInfo} className="card">
+            Get User Info
+          </button>
         </div>
-
-        {/*<div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-          </div>
-        </div> */}
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <CurrencyDollarIcon className="h-8 w-8 fill-secondary" />
-
-              <h3 className="text-lg font-bold mt-4 mb-2">True Ownership</h3>
-              <p>
-                Players can freely trade or sell their gaming accounts as NFTs on any marketplace <br></br>
-                <Link href="/debug" passHref className="link">
-                  {" "}
-                  {/* TODO: Change the path to market place*/}
-                  Explore Marketplace
-                </Link>{" "}
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <CubeIcon className="h-8 w-8 fill-secondary" />
-
-              <h3 className="text-lg font-bold mt-4 mb-2">Secure Identity</h3>
-              <p>
-                Every player account is secured by blockchain technology and verified through NFTs <br></br>
-                <Link href="/blockexplorer" passHref className="link">
-                  {" "}
-                  {/* TODO: Path to docs*/}
-                  Learn How
-                </Link>{" "}
-              </p>
-            </div>
-          </div>
+        <div>
+          <button onClick={getAccounts} className="card">
+            Get Accounts
+          </button>
+        </div>
+        <div>
+          <button onClick={getBalance} className="card">
+            Get Balance
+          </button>
+        </div>
+        <div>
+          <button onClick={signMessage} className="card">
+            Sign Message
+          </button>
+        </div>
+        <div>
+          <button onClick={sendTransaction} className="card">
+            Send Transaction
+          </button>
+        </div>
+        <div>
+          <button onClick={logout} className="card">
+            Log Out
+          </button>
         </div>
       </div>
     </>
   );
-};
 
-export default Home;
+  const unloggedInView = (
+    <button onClick={login} className="card">
+      Login
+    </button>
+  );
+
+  return (
+    <div className="container">
+      <h1 className="title">
+        <a target="_blank" href="https://web3auth.io/docs/sdk/pnp/web/modal" rel="noreferrer">
+          Web3Auth{" "}
+        </a>
+        & React Quick Start
+      </h1>
+
+      <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
+      <div id="console" style={{ whiteSpace: "pre-line" }}>
+        <p style={{ whiteSpace: "pre-line" }}></p>
+      </div>
+
+      <footer className="footer">
+        <a
+          href="https://github.com/Web3Auth/web3auth-pnp-examples/tree/main/web-modal-sdk/quick-starts/react-vite-modal-quick-start"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Source code
+        </a>
+        <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FWeb3Auth%2Fweb3auth-pnp-examples%2Ftree%2Fmain%2Fweb-modal-sdk%2Fquick-starts%2Freact-vite-evm-modal-quick-start&project-name=w3a-react-vite-no-modal&repository-name=w3a-react-vite-no-modal">
+          <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+        </a>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
