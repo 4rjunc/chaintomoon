@@ -2,9 +2,10 @@
 
 > Your Gateway to Web3 Gaming 🎮
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Discord](https://img.shields.io/discord/YOUR_DISCORD_ID)](https://discord.gg/YOUR_INVITE)
-[![Twitter Follow](https://img.shields.io/twitter/follow/chainportal?style=social)](https://twitter.com/chainportal)
+<!-- [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) -->
+<!-- [![Discord](https://img.shields.io/discord/YOUR_DISCORD_ID)](https://discord.gg/YOUR_INVITE) -->
+<!-- [![Twitter Follow](https://img.shields.io/twitter/follow/chainportal?style=social)](https://twitter.com/chainportal) -->
+<!---->
 
 ## 🎯 Problem Statement
 
@@ -61,8 +62,8 @@ ChainPortal provides a seamless NFT-based authentication system that enables:
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/chainportal.git
-cd chainportal
+git clone https://github.com/Chainportal/chainportal-console.git
+cd chainportal-console
 ```
 
 2. Install dependencies
@@ -82,8 +83,7 @@ cp .env.example .env
 Edit `.env` with your configuration:
 
 ```
-NEXT_PUBLIC_CHAIN_ID=1
-NEXT_PUBLIC_ALCHEMY_ID=your_alchemy_id
+NEXT_PUBLIC_NILLION=<APP_ID>
 ```
 
 4. Start the development server
