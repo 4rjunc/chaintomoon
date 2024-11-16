@@ -16,15 +16,16 @@ import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { CubeIcon, CurrencyDollarIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
-import {
-  ArrowLeftOnRectangleIcon,
-  PaperAirplaneIcon,
-  PencilSquareIcon,
-  UserCircleIcon,
-  UserIcon,
-  WalletIcon,
-} from "@heroicons/react/24/solid";
 import { Address } from "~~/components/scaffold-eth";
+import {
+  UserIcon,
+  UserCircleIcon,
+  WalletIcon,
+  CurrencyDollarIcon,
+  PencilSquareIcon,
+  PaperAirplaneIcon,
+  ArrowLeftOnRectangleIcon,
+} from '@heroicons/react/24/solid';
 
 const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
 
@@ -152,6 +153,21 @@ function App() {
   const loggedInView = (
     <>
       <div className="flex-container">
+        <div>
+          <div className="flex mt-2 justify-center items-center space-x-2 flex-col">
+            <p className="my-2 font-medium">Connected Address:</p>
+            <Address address={address} size="3xl" />
+            <Link
+              href="/developer"
+              passHref
+              className={`
+                   mt-3 bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
+            >
+              <CubeIcon className="h-5 w-5" />
+              <span>Play the game!</span>
+            </Link>
+          </div>
+        </div>
         <div className="max-w-4xl mx-auto p-6 space-y-8">
           {/* User Info Section */}
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-xl">
@@ -161,15 +177,15 @@ function App() {
               </div>
               <div className="text-center">
                 <p className="text-gray-500 font-medium">Connected Address</p>
-                <Address address={address} size="3xl" />
+                <Address address={address} size="3xl" className="font-mono text-lg bg-gray-100 px-4 py-2 rounded-lg" />
               </div>
 
               <Link
                 href="/developer"
                 className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:scale-105 transition-all duration-200 shadow-lg"
               >
-                <CubeIcon className="h-5 w-5" />
-                <span>Play the game!</span>
+                <WrenchScrewdriverIcon className="h-5 w-5" />
+                <span className="font-semibold">Developer Console</span>
               </Link>
             </div>
           </div>
