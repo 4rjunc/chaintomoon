@@ -37,7 +37,7 @@ const CollateralPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen  from-gray-900 via-gray-800 to-black text-white pb-64 px-4">
+    <div className="flex flex-col items-center justify-center from-gray-900 mt-14 via-gray-800 to-black text-white px-4">
       <h1 className="text-4xl font-extrabold mb-8 text-center text-blue-400 drop-shadow-lg">
         Purchase Oxygen or Stake Collateral
       </h1>

@@ -23,7 +23,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
         style={{ backgroundImage: "url('/background.png')" }}
       >
         <Header />
-        <main className="relative flex flex-col flex-1">{children}</main>
+        <main className="relative flex flex-col flex-1 h-full">{children}</main>
         <Footer />
       </div>
       <Toaster />
