@@ -7,27 +7,9 @@ import React, { useEffect, useState } from "react";
 
 // @ts-ignore
 
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
 const DeveloperConsole = () => {
   const [activeTab, setActiveTab] = useState("api-keys");
-  const [apiKeys, setApiKeys] = useState([]);
+  const [apiKeys, setApiKeys] = useState<any>([]);
 
   const [nfts, setNfts] = useState([{ id: 1, name: "Game Pass", supply: 1000, minted: 250, address: "0x123...abc" }]);
 
