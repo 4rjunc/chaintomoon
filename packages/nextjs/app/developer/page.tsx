@@ -5,15 +5,12 @@ import React, { useEffect, useState } from "react";
 
 // @ts-ignore
 
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
-
-// @ts-ignore
+interface ApiKey {
+  id: string;
+  name: string;
+  environment: string;
+  key: string;
+}
 
 const DeveloperConsole = () => {
   const [activeTab, setActiveTab] = useState("api-keys");
@@ -169,7 +166,7 @@ const DeveloperConsole = () => {
             ) : (
               <div className="space-y-4">
                 {apiKeys.length > 0 ? (
-                  apiKeys.map(apiKey => (
+                  apiKeys.map((apiKey: ApiKey) => (
                     <div key={apiKey.id} className="border p-3 rounded-lg">
                       <h3 className="font-medium">{apiKey.name}</h3>
                       <p className="text-sm text-gray-500">{apiKey.environment}</p>
