@@ -137,4 +137,41 @@ const config: HardhatUserConfig = {
   },
 };
 
+// const config: HardhatUserConfig = {
+//   solidity: {
+//     compilers: [
+//       {
+//         version: "0.8.26",
+//         settings: {
+//           optimizer: {
+//             enabled: true,
+//             // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
+//             runs: 200,
+//           },
+//         },
+//       },
+//     ],
+//   },
+//   networks: {
+//     'base-sepolia': {
+//       url: 'https://sepolia.base.org'
+//     },
+//   },
+//   etherscan: {
+//     apiKey: {
+//       'base-sepolia': 'empty'
+//     },
+//     customChains: [
+//       {
+//         network: "base-sepolia",
+//         chainId: 84532,
+//         urls: {
+//           apiURL: "https://base-sepolia.blockscout.com/api",
+//           browserURL: "https://base-sepolia.blockscout.com"
+//         }
+//       }
+//     ]
+//   }
+// };
+
 export default config;

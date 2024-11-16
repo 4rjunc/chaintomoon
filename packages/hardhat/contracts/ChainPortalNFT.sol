@@ -6,9 +6,14 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract ChainPortalNFT is ERC721, ERC721Enumerable, ERC721Burnable {
 	using EnumerableSet for EnumerableSet.UintSet;
+	using SafeERC20 for IERC20;
+
+	uint8 public constant USDC_OXYGEN_RATE = 10;
 
 	struct Metadata {
 		uint256 tokenId;
@@ -16,6 +21,8 @@ contract ChainPortalNFT is ERC721, ERC721Enumerable, ERC721Burnable {
 		uint256 score;
 		uint256 oxygen;
 	}
+
+	IERC20 public immutable usdcToken;
 
 	uint256 public nextTokenId;
 	EnumerableSet.UintSet private tokenIds;
@@ -34,7 +41,9 @@ contract ChainPortalNFT is ERC721, ERC721Enumerable, ERC721Burnable {
 
 	error NotOwner();
 
-	constructor() ERC721("ChainPortal", "CPT") {}
+	constructor(address _usdcToken) ERC721("ChainPortal", "CPT") {
+		usdcToken = IERC20(_usdcToken);
+	}
 
 	function safeMint() public {
 		uint256 tokenId = nextTokenId++;
@@ -59,16 +68,19 @@ contract ChainPortalNFT is ERC721, ERC721Enumerable, ERC721Burnable {
 		emit ScoreUpdated(_tokenId, _msgSender(), _score);
 	}
 
-	function updateOxygen(uint256 _tokenId, uint256 _oxygen) public {
+	function buyOxygen(uint256 _usdcAmount, uint256 _tokenId) public {
 		address owner = _requireOwned(_tokenId);
 
 		if (owner != _msgSender()) {
 			revert NotOwner();
 		}
 
-		tokenMetadatas[_tokenId].oxygen = _oxygen;
+		uint256 oxygen = (_usdcAmount * 10) / 1e6;
+		tokenMetadatas[_tokenId].oxygen = oxygen;
 
-		emit OxygenUpdated(_tokenId, _msgSender(), _oxygen);
+		usdcToken.safeTransferFrom(msg.sender, address(this), _usdcAmount);
+
+		emit OxygenUpdated(_tokenId, _msgSender(), oxygen);
 	}
 
 	function getAllTokenIds() public view returns (uint256[] memory) {
