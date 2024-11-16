@@ -6,7 +6,7 @@ import Link from "next/link";
 import { IDKitWidget, ISuccessResult, VerificationLevel } from "@worldcoin/idkit";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
-import { BugAntIcon, CubeIcon, CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { CubeIcon, CurrencyDollarIcon } from "@heroicons/react/24/outline";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
 

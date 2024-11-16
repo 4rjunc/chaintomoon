@@ -7,6 +7,10 @@ import React, { useEffect, useState } from "react";
 
 // @ts-ignore
 
+// @ts-ignore
+
+// @ts-ignore
+
 const DeveloperConsole = () => {
   const [activeTab, setActiveTab] = useState("api-keys");
   const [apiKeys, setApiKeys] = useState<any>([]);
@@ -83,7 +87,7 @@ const DeveloperConsole = () => {
     setNewApiName(""); // Reset input
   };
 
-  const storeInNillion = async (name, key) => {
+  const storeInNillion = async (name: any, key: any) => {
     console.log("\nStoring second secret...");
 
     setNillionLoading(true);
