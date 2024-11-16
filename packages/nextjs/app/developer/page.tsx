@@ -11,6 +11,10 @@ import React, { useEffect, useState } from "react";
 
 // @ts-ignore
 
+// @ts-ignore
+
+// @ts-ignore
+
 const DeveloperConsole = () => {
   const [activeTab, setActiveTab] = useState("api-keys");
   const [apiKeys, setApiKeys] = useState<any>([]);
@@ -79,7 +83,7 @@ const DeveloperConsole = () => {
       key: `pk_${Math.random().toString(36).substr(2, 9)}`,
       //  environment: "test",
     };
-    console.log("Nillion", process.env.NEXT_PUBLIC_NILLION);
+    console.log("Nillion", process.env.NEXT_PUBLIC_NILLION_ID);
 
     storeInNillion(newKey.name, newKey.key);
     setApiKeys([...apiKeys, newKey]);
