@@ -57,7 +57,7 @@ const Home: NextPage = () => {
                   signal={connectedAddress} // proof will only verify if the signal is unchanged, this prevents tampering
                   verification_level={VerificationLevel.Device}
                 >
-                  {({ open }) => (
+                  {({ open }: { open: () => void }) => (
                     // This is the button that will open the IDKit modal
                     <button onClick={open} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                       Verify with World ID to unlock access
