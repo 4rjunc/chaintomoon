@@ -14,16 +14,22 @@ contract ChainPortalNFT is ERC721, ERC721Enumerable, ERC721Burnable {
 		uint256 tokenId;
 		address owner;
 		uint256 score;
+		uint256 oxygen;
 	}
 
 	uint256 public nextTokenId;
 	EnumerableSet.UintSet private tokenIds;
 	mapping(uint256 => Metadata) tokenMetadatas;
 
-	event MetadataUpdated(
+	event ScoreUpdated(
 		uint256 indexed tokenId,
 		address indexed owner,
 		uint256 indexed score
+	);
+	event OxygenUpdated(
+		uint256 indexed tokenId,
+		address indexed owner,
+		uint256 indexed oxygen
 	);
 
 	error NotOwner();
@@ -50,7 +56,19 @@ contract ChainPortalNFT is ERC721, ERC721Enumerable, ERC721Burnable {
 
 		tokenMetadatas[_tokenId].score = _score;
 
-		emit MetadataUpdated(_tokenId, _msgSender(), _score);
+		emit ScoreUpdated(_tokenId, _msgSender(), _score);
+	}
+
+	function updateOxygen(uint256 _tokenId, uint256 _oxygen) public {
+		address owner = _requireOwned(_tokenId);
+
+		if (owner != _msgSender()) {
+			revert NotOwner();
+		}
+
+		tokenMetadatas[_tokenId].oxygen = _oxygen;
+
+		emit OxygenUpdated(_tokenId, _msgSender(), _oxygen);
 	}
 
 	function getAllTokenIds() public view returns (uint256[] memory) {
