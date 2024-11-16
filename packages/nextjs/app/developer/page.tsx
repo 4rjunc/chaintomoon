@@ -1,6 +1,29 @@
+// @ts-ignore
 "use client";
 
 import React, { useEffect, useState } from "react";
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
+
+// @ts-ignore
 
 const DeveloperConsole = () => {
   const [activeTab, setActiveTab] = useState("api-keys");
