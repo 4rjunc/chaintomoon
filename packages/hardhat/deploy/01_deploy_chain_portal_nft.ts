@@ -11,7 +11,7 @@ const deployChainPortalNFT: DeployFunction = async function (hre: HardhatRuntime
 
   await deploy("ChainPortalNFT", {
     from: deployer,
-    args: [myTokenAddr],
+    args: ["0x036CbD53842c5426634e7929541eC2318f3dCF7e"],
     log: true,
     autoMine: true,
   });
