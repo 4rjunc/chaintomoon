@@ -149,6 +149,12 @@ function App() {
     }
   }
 
+  const handlePlayTheGame = () => {
+    // Aquí puedes agregar lógica adicional antes de la redirección
+    console.log("User is being redirected to /collateral");
+    window.location.href = "/collateral"; // Cambiar la página
+  };
+
   const loggedInView = (
     <>
       <div className="flex-container">
@@ -164,13 +170,14 @@ function App() {
                 <Address address={address} size="3xl" />
               </div>
 
-              <Link
-                href="/developer"
+              <button
+                // href="/developer"
+                onClick={handlePlayTheGame}
                 className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:scale-105 transition-all duration-200 shadow-lg"
               >
                 <CubeIcon className="h-5 w-5" />
                 <span>Play the game!</span>
-              </Link>
+              </button>
             </div>
           </div>
 

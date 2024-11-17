@@ -12,13 +12,15 @@ const ExpeditionWaitPage = () => {
     const fetchExpeditionTime = async () => {
       try {
         // Llama a la API para obtener el timestamp de inicio
-        const response = await fetch("https://api.juki.app/timestamp");
+        const response = await fetch("https://api.juki.app/chain2moon/timestamp");
         const data = await response.json();
 
         if (data.success) {
           const startTime = parseInt(data.content.timestamp) * 1000; // Convertir de segundos a milisegundos
           const currentTime = Date.now();
           const remainingTime = Math.max(0, startTime - currentTime);
+          console.log({ startTime });
+          console.log({ currentTime });
 
           setTimeRemaining(remainingTime);
           setLoading(false);
