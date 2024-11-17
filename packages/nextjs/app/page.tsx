@@ -13,6 +13,7 @@ import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3Auth, Web3AuthOptions } from "@web3auth/modal";
 import { IDKitWidget, ISuccessResult, VerificationLevel } from "@worldcoin/idkit";
 import type { NextPage } from "next";
+import { parseEther } from "viem";
 import { useAccount } from "wagmi";
 import { CubeIcon, CurrencyDollarIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
@@ -35,7 +36,7 @@ const chainConfig = {
   // Avoid using public rpcTarget in production.
   // Use services like Infura, Quicknode etc
   displayName: "Ethereum Sepolia Testnet",
-  blockExplorerUrl: "https://sepolia.etherscan.io",
+  blockExplorerUrl: "https://base-sepolia.blockscout.com/",
   ticker: "ETH",
   tickerName: "Ethereum",
   logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
@@ -136,7 +137,20 @@ function App() {
       uiConsole("provider not initialized yet");
       return;
     }
-    uiConsole("Sending Transaction...");
+    uiConsole("Sending Transaction...", provider);
+    // Convert 1 ether to WEI format
+    const amount = parseEther("0.0002");
+
+    // Submits a user operation to the blockchain
+    const hash = await walletClient.sendTransaction({
+      to: "DESTINATION_ADDRESS",
+      value: amount,
+      // This will perform the transfer of ETH
+      data: "0x",
+    });
+
+    // Wait for the transaction to be mined
+    const receipt = await publicClient.waitForTransactionReceipt({ hash });
     const transactionReceipt = await RPC.sendTransaction(provider);
     uiConsole(transactionReceipt);
   };
@@ -282,22 +296,20 @@ function App() {
             {loggedIn ? loggedInView : unloggedInView}
           </div>
 
-          {/*
-                <IDKitWidget
-                  app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
-                  action="profezzor" // obtained from the Developer Portal
-                  onSuccess={setProof} // callback when the modal is closed
-                  signal={connectedAddress} // proof will only verify if the signal is unchanged, this prevents tampering
-                  verification_level={VerificationLevel.Device}
-                >
-                  {({ open }: { open: () => void }) => (
-                    // This is the button that will open the IDKit modal
-                    <button onClick={open} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                      Verify with World ID to unlock access
-                    </button>
-                  )}
-                </IDKitWidget>
-          */}
+          <IDKitWidget
+            app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
+            action="profezzor" // obtained from the Developer Portal
+            onSuccess={setProof} // callback when the modal is closed
+            signal={connectedAddress} // proof will only verify if the signal is unchanged, this prevents tampering
+            verification_level={VerificationLevel.Device}
+          >
+            {({ open }: { open: () => void }) => (
+              // This is the button that will open the IDKit modal
+              <button onClick={open} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                Verify with World ID to unlock access
+              </button>
+            )}
+          </IDKitWidget>
 
           <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
             <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
@@ -327,6 +339,18 @@ function App() {
                     {/* TODO: Update the path to the documentation*/}
                     Read Documentation
                   </Link>{" "}
+                  Contracts
+                  <ul>
+                    <li>
+                      <Link href="https://base-sepolia.blockscout.com/address/0x74b8c21F230C168de61451ED79dfDE2FCE83911f#code">
+                        Contract 1
+                      </Link>
+                    </li>
+
+                    <li>
+                      <Link href="https://eth.blockscout.com">contract 2</Link>
+                    </li>
+                  </ul>
                 </p>
               </div>
             </div>
