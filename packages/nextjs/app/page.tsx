@@ -139,20 +139,6 @@ function App() {
     }
     uiConsole("Sending Transaction...", provider);
     // Convert 1 ether to WEI format
-    const amount = parseEther("0.0002");
-
-    // Submits a user operation to the blockchain
-    const hash = await walletClient.sendTransaction({
-      to: "DESTINATION_ADDRESS",
-      value: amount,
-      // This will perform the transfer of ETH
-      data: "0x",
-    });
-
-    // Wait for the transaction to be mined
-    const receipt = await publicClient.waitForTransactionReceipt({ hash });
-    const transactionReceipt = await RPC.sendTransaction(provider);
-    uiConsole(transactionReceipt);
   };
 
   function uiConsole(...args: any[]): void {
