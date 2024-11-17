@@ -6,12 +6,12 @@ const deployChainPortalNFT: DeployFunction = async function (hre: HardhatRuntime
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  const myToken = await hre.ethers.getContract<Contract>("MyToken", deployer);
-  const myTokenAddr = await myToken.getAddress();
+  // const myToken = await hre.ethers.getContract<Contract>("MyToken", deployer);
+  // const myTokenAddr = await myToken.getAddress();
 
   await deploy("ChainPortalNFT", {
     from: deployer,
-    args: ["0x036CbD53842c5426634e7929541eC2318f3dCF7e"],
+    args: ["0xEDebFb8E05ED6eCcb2e41f5eDDa5Df7b317676e4"],
     log: true,
     autoMine: true,
   });

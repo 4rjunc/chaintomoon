@@ -197,3 +197,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Blog](https://blog.chainportal.com)
 - [Discord](https://discord.gg/chainportal)
 - [Twitter](https://twitter.com/chainportal)
+
+## Deployed contracts
+
+- https://base-sepolia.blockscout.com/address/0x74b8c21F230C168de61451ED79dfDE2FCE83911f#code
+- https://scroll-sepolia.blockscout.com/address/0xDC9106A4768B5D505239b5EE3718dBD704dced64#code

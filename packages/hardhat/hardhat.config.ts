@@ -137,37 +137,61 @@ const forkingURL = process.env.FORKING_URL || "";
 //   },
 // };
 
+// const config: HardhatUserConfig = {
+//   solidity: {
+//     compilers: [
+//       {
+//         version: "0.8.26",
+//         settings: {
+//           optimizer: {
+//             enabled: true,
+//             // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
+//             runs: 200,
+//           },
+//         },
+//       },
+//     ],
+//   },
+//   networks: {
+//     'base-sepolia': {
+//       url: 'https://sepolia.base.org'
+//     },
+//   },
+//   etherscan: {
+//     apiKey: {
+//       'base-sepolia': 'empty'
+//     },
+//     customChains: [
+//       {
+//         network: "base-sepolia",
+//         chainId: 84532,
+//         urls: {
+//           apiURL: "https://base-sepolia.blockscout.com/api",
+//           browserURL: "https://base-sepolia.blockscout.com"
+//         }
+//       }
+//     ]
+//   }
+// };
+
 const config: HardhatUserConfig = {
-  solidity: {
-    compilers: [
-      {
-        version: "0.8.26",
-        settings: {
-          optimizer: {
-            enabled: true,
-            // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
-            runs: 200,
-          },
-        },
-      },
-    ],
-  },
+  solidity: "0.8.26", // replace if necessary
   networks: {
-    'base-sepolia': {
-      url: 'https://sepolia.base.org'
+    'scroll-sepolia-testnet': {
+      url: 'https://sepolia-rpc.scroll.io'
     },
   },
   etherscan: {
     apiKey: {
-      'base-sepolia': 'empty'
+      'scroll-sepolia-testnet': 'empty'
     },
     customChains: [
       {
-        network: "base-sepolia",
-        chainId: 84532,
+        network: "scroll-sepolia-testnet",
+        chainId: 534351,
         urls: {
-          apiURL: "https://base-sepolia.blockscout.com/api",
-          browserURL: "https://base-sepolia.blockscout.com"
+          apiURL: "https://scroll-sepolia.blockscout.com/api",
+          browserURL: "https://scroll-sepolia.blockscout.com"
         }
       }
     ]
