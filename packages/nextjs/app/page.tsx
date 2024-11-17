@@ -296,22 +296,20 @@ function App() {
             {loggedIn ? loggedInView : unloggedInView}
           </div>
 
-          {/*
-                <IDKitWidget
-                  app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
-                  action="profezzor" // obtained from the Developer Portal
-                  onSuccess={setProof} // callback when the modal is closed
-                  signal={connectedAddress} // proof will only verify if the signal is unchanged, this prevents tampering
-                  verification_level={VerificationLevel.Device}
-                >
-                  {({ open }: { open: () => void }) => (
-                    // This is the button that will open the IDKit modal
-                    <button onClick={open} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                      Verify with World ID to unlock access
-                    </button>
-                  )}
-                </IDKitWidget>
-          */}
+          <IDKitWidget
+            app_id={process.env.NEXT_PUBLIC_WORLD_APP_ID} // obtained from the Developer Portal
+            action="profezzor" // obtained from the Developer Portal
+            onSuccess={setProof} // callback when the modal is closed
+            signal={connectedAddress} // proof will only verify if the signal is unchanged, this prevents tampering
+            verification_level={VerificationLevel.Device}
+          >
+            {({ open }: { open: () => void }) => (
+              // This is the button that will open the IDKit modal
+              <button onClick={open} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                Verify with World ID to unlock access
+              </button>
+            )}
+          </IDKitWidget>
 
           <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
             <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
